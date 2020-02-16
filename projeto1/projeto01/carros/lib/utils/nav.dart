@@ -15,7 +15,7 @@ push(BuildContext context, Widget page, {bool replace = false}) {
     context,
     MaterialPageRoute(
       builder: (BuildContext context) {
-        return HomePage();
+        return page;
       },
     ),
   );

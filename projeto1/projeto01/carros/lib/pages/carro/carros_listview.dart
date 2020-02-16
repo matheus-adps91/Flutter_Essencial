@@ -1,4 +1,6 @@
+import 'package:carros/pages/carro/carro_page.dart';
 import 'package:carros/pages/carro/carros_api.dart';
+import 'package:carros/utils/nav.dart';
 import 'package:flutter/material.dart';
 import 'carro.dart';
 
@@ -10,38 +12,34 @@ class CarrosListView extends StatefulWidget {
   _CarrosListViewState createState() => _CarrosListViewState();
 }
 
-class _CarrosListViewState extends State<CarrosListView>
-    with AutomaticKeepAliveClientMixin<CarrosListView> {
+class _CarrosListViewState extends State<CarrosListView> with AutomaticKeepAliveClientMixin<CarrosListView> {
+
+  List<Carro> carros;
   @override
   bool get wantKeepAlive => true;
 
   @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return _body();
+  void initState() {
+    super.initState();
+
+    Future<List<Carro>> future = CarrosApi.getCarros(widget.tipo);
+    future.then((List<Carro> carros) {
+      setState(() {
+        this.carros = carros;
+      });
+    });
   }
 
-  _body() {
-    Future<List<Carro>> futureCarros = CarrosApi.getCarros(widget.tipo);
-    return FutureBuilder(
-        future: futureCarros,
-        builder: (context, asyncSnapshot) {
-          if (asyncSnapshot.hasError) {
-            return Center(
-              child: Text(
-                "Não foi possível buscar os carros",
-                style: TextStyle(color: Colors.red, fontSize: 22),
-              ),
-            );
-          }
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
 
-          if (!asyncSnapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return _listView(asyncSnapshot.data);
-        });
+    if (carros == null) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    return _listView(carros);
   }
 
   Container _listView(List<Carro> carros) {
@@ -81,7 +79,7 @@ class _CarrosListViewState extends State<CarrosListView>
                       children: <Widget>[
                         FlatButton(
                           child: const Text('Details'),
-                          onPressed: () {/* ... */},
+                          onPressed: () => _onClickCarro(c),
                         ),
                         FlatButton(
                           child: const Text('Share'),
@@ -97,5 +95,9 @@ class _CarrosListViewState extends State<CarrosListView>
         },
       ),
     );
+  }
+
+  _onClickCarro(Carro c) {
+    push(context, CarroPage(c));
   }
 }
