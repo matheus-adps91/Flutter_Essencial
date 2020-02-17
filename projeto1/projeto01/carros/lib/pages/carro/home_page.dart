@@ -20,8 +20,11 @@ class _HomePageState extends State<HomePage>
   }
 
   _initTabs() async {
+    int tabIdx= await Prefs.getInt("tabIdx");
     _tabController = TabController(length: 3, vsync: this);
-    _tabController.index = await Prefs.getInt("tabIdx");
+    setState(() {
+      _tabController.index = tabIdx;
+    });
     _tabController.addListener(() {
       print("Defalut Tab > ${_tabController.index}");
       Prefs.setInt("tabIdx", _tabController.index);
@@ -33,16 +36,22 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       appBar: AppBar(
         title: Text('Carros'),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: <Widget>[
-            Tab(text: "Clássicos"),
-            Tab(text: "Esportivos"),
-            Tab(text: "Luxo")
+        bottom: _tabController == null
+            ? null
+            : TabBar(
+              controller: _tabController,
+              tabs: <Widget>[
+                Tab(text: "Clássicos"),
+                Tab(text: "Esportivos"),
+                Tab(text: "Luxo")
           ],
         ),
       ),
-      body: TabBarView(
+      body: _tabController == null
+        ? Center(
+          child: CircularProgressIndicator(),
+        )
+        :TabBarView(
         controller: _tabController,
         children: <Widget>[
           CarrosListView(TipoCarro.classicos),

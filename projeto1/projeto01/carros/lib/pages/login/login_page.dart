@@ -1,12 +1,13 @@
 import 'package:carros/pages/api_response.dart';
 import 'package:carros/pages/carro/home_page.dart';
-import 'package:carros/pages/login/login_api.dart';
+import 'package:carros/pages/login/login_bloc.dart';
 import 'package:carros/pages/login/usuario.dart';
 import 'package:carros/utils/alert.dart';
 import 'package:carros/utils/nav.dart';
 import 'package:carros/widgets/app_buton.dart';
 import 'package:carros/widgets/app_text.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final _tLogin = TextEditingController();
   final _tSenha = TextEditingController();
   final _focusSenha = FocusNode();
-  bool _showProgress = false;
+  final _bloc = LoginBloc();
 
   @override
   void initState() {
@@ -70,32 +71,41 @@ class _LoginPageState extends State<LoginPage> {
               keyboardType: TextInputType.number,
               focusNode: _focusSenha,
             ),
-            SizedBox(height: 20),
-            AppButton(
-              "Login",
-              onPressed: () => _onClickLogin(context),
-              showProgress: _showProgress,
+            SizedBox(
+                height: 20
             ),
+            StreamBuilder<bool>(
+              stream: _bloc.stream,
+              initialData: false,
+              builder: (context, snapshot) {
+                return AppButton(
+                  "Login",
+                  onPressed: () => _onClickLogin(context),
+                  showProgress: snapshot.data,
+                );
+              }
+            )
           ],
         ),
       ),
     );
   }
 
-  _onClickLogin(BuildContext context) async {
+  void _onClickLogin(BuildContext context) async {
     if (!_formKey.currentState.validate()) {
       return;
     }
     String login = _tLogin.text;
     String senha = _tSenha.text;
 
-    ApiResponse<Usuario> response = await LoginApi.login(login, senha);
+    ApiResponse response = await _bloc.login(login, senha);
 
     if (response.ok) {
       push(context, HomePage(), replace: true);
     } else {
       alert(context, response.msg);
     }
+
   }
 
   String _validateLogin(String value) {
@@ -114,4 +124,5 @@ class _LoginPageState extends State<LoginPage> {
     }
     return null;
   }
+
 }

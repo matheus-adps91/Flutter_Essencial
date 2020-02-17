@@ -18,10 +18,7 @@ class CarrosApi {
       "Authorization": "Bearer ${user.token}"
     };
 
-    print(headers);
-
-    var url =
-        'https://carros-springboot.herokuapp.com/api/v2/carros/tipo/$tipo';
+    var url = 'https://carros-springboot.herokuapp.com/api/v2/carros/tipo/$tipo';
 
     print("GET > $url");
 
