@@ -1,5 +1,5 @@
 import 'package:carros/pages/carro/carros_api.dart';
-import 'package:carros/pages/carro/carros_listview.dart';
+import 'package:carros/pages/carro/carros_page.dart';
 import 'package:carros/utils/prefs.dart';
 import 'package:flutter/material.dart';
 import '../../drawer_list.dart';
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage>
   }
 
   _initTabs() async {
-    int tabIdx= await Prefs.getInt("tabIdx");
+    int tabIdx = await Prefs.getInt("tabIdx");
     _tabController = TabController(length: 3, vsync: this);
     setState(() {
       _tabController.index = tabIdx;
@@ -39,26 +39,26 @@ class _HomePageState extends State<HomePage>
         bottom: _tabController == null
             ? null
             : TabBar(
-              controller: _tabController,
-              tabs: <Widget>[
-                Tab(text: "Clássicos"),
-                Tab(text: "Esportivos"),
-                Tab(text: "Luxo")
-          ],
-        ),
+                controller: _tabController,
+                tabs: <Widget>[
+                  Tab(text: "Clássicos"),
+                  Tab(text: "Esportivos"),
+                  Tab(text: "Luxo")
+                ],
+              ),
       ),
       body: _tabController == null
-        ? Center(
-          child: CircularProgressIndicator(),
-        )
-        :TabBarView(
-        controller: _tabController,
-        children: <Widget>[
-          CarrosListView(TipoCarro.classicos),
-          CarrosListView(TipoCarro.esportivos),
-          CarrosListView(TipoCarro.luxo),
-        ],
-      ),
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : TabBarView(
+              controller: _tabController,
+              children: <Widget>[
+                CarrosPage(TipoCarro.classicos),
+                CarrosPage(TipoCarro.esportivos),
+                CarrosPage(TipoCarro.luxo),
+              ],
+            ),
       drawer: DrawerList(),
     );
   }
