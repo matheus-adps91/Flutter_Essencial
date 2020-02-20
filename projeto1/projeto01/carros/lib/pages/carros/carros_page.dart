@@ -1,5 +1,5 @@
-import 'package:carros/pages/carro/carros_bloc.dart';
-import 'package:carros/pages/carro/carros_listview.dart';
+import 'package:carros/pages/carros/carros_bloc.dart';
+import 'package:carros/pages/carros/carros_listview.dart';
 import 'package:carros/widgets/text_error.dart';
 import 'package:flutter/material.dart';
 import 'carro.dart';

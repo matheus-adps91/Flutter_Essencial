@@ -1,5 +1,5 @@
 import 'package:carros/pages/api_response.dart';
-import 'package:carros/pages/carro/home_page.dart';
+import 'package:carros/pages/carros/home_page.dart';
 import 'package:carros/pages/login/login_bloc.dart';
 import 'package:carros/pages/login/usuario.dart';
 import 'package:carros/utils/alert.dart';
@@ -71,20 +71,17 @@ class _LoginPageState extends State<LoginPage> {
               keyboardType: TextInputType.number,
               focusNode: _focusSenha,
             ),
-            SizedBox(
-                height: 20
-            ),
+            SizedBox(height: 20),
             StreamBuilder<bool>(
-              stream: _bloc.stream,
-              initialData: false,
-              builder: (context, snapshot) {
-                return AppButton(
-                  "Login",
-                  onPressed: () => _onClickLogin(context),
-                  showProgress: snapshot.data,
-                );
-              }
-            )
+                stream: _bloc.stream,
+                initialData: false,
+                builder: (context, snapshot) {
+                  return AppButton(
+                    "Login",
+                    onPressed: () => _onClickLogin(context),
+                    showProgress: snapshot.data,
+                  );
+                })
           ],
         ),
       ),
@@ -105,7 +102,6 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       alert(context, response.msg);
     }
-
   }
 
   String _validateLogin(String value) {
@@ -124,5 +120,4 @@ class _LoginPageState extends State<LoginPage> {
     }
     return null;
   }
-
 }
