@@ -15,6 +15,10 @@ class LoripsumBloc {
 
     _streamController.add(s);
   }
+
+  void dispose() {
+    _streamController.close();
+  }
 }
 
 class LoripsumApi {

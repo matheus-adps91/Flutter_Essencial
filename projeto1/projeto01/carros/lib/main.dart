@@ -1,5 +1,5 @@
+import 'package:carros/splash_page.dart';
 import 'package:flutter/material.dart';
-
 import 'pages/login/login_page.dart';
 
 void main() => runApp(MyApp());
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: SplashPage(),
     );
   }
 }

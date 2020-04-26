@@ -11,7 +11,13 @@ class SimpleBloc<T> {
   }
 
   void addError(Object error){
-    _controller.addError(error);
+    if (!_controller.isClosed){
+      _controller.addError(error);
+    }
+  }
+
+  void dispose() {
+    _controller.close();
   }
 
 }

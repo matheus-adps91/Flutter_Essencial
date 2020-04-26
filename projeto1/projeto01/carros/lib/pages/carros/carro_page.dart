@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 class CarroPage extends StatefulWidget {
   Carro carro;
+
   CarroPage(this.carro);
 
   @override
@@ -82,9 +83,7 @@ class _CarroPageState extends State<CarroPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             text(widget.carro.nome, fontSize: 20, bold: true),
-            text(
-              widget.carro.tipo,
-            )
+            text(widget.carro.tipo, fontSize: 16)
           ],
         ),
         Row(
@@ -135,10 +134,7 @@ class _CarroPageState extends State<CarroPage> {
         SizedBox(
           height: 20,
         ),
-        text(
-          widget.carro.descricao,
-          bold: true,
-        ),
+        text(widget.carro.descricao, fontSize: 16,bold: true),
         SizedBox(
           height: 20,
         ),
@@ -148,7 +144,7 @@ class _CarroPageState extends State<CarroPage> {
             if (!snapshot.hasData) {
               return Center(child: CircularProgressIndicator());
             }
-            return text(snapshot.data);
+            return text(snapshot.data, fontSize: 16);
           },
         ),
       ],
@@ -158,4 +154,8 @@ class _CarroPageState extends State<CarroPage> {
   void _onClickFavorito() {}
 
   void _onClickShare() {}
+
+  void dispose() {
+    _loripsumBloc.dispose();
+  }
 }

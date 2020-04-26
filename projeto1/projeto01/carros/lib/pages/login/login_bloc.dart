@@ -4,7 +4,7 @@ import 'package:carros/pages/login/login_api.dart';
 import 'package:carros/pages/login/usuario.dart';
 import 'dart:async';
 
-class LoginBloc extends SimpleBloc<bool> {
+class LoginBloc extends BooleanBloc {
   Future<ApiResponse<Usuario>> login(String login, String senha) async {
     add(true);
     ApiResponse response = await LoginApi.login(login, senha);

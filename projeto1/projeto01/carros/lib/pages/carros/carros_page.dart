@@ -56,4 +56,10 @@ class _CarrosPageState extends State<CarrosPage>
   Future<void> _onRefresh() {
     return _bloc.fetch(tipo);
   }
+
+  void dispose() {
+    super.dispose();
+
+    _bloc.dispose();
+  }
 }
